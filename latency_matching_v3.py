@@ -200,7 +200,7 @@ class ChampionVLA:
 
 
 # =====================================================================
-# 4. 评测 v3.0 满血模型
+# 4. 评测 v3.0 模型
 # =====================================================================
 def evaluate_model(model, model_infer_delay_frames, num_test_eps=60):
     env = FlappyBirdChampionEnv(seed=2026)
@@ -211,7 +211,7 @@ def evaluate_model(model, model_infer_delay_frames, num_test_eps=60):
         infer_queue = deque([0] * model_infer_delay_frames, maxlen=max(1, model_infer_delay_frames))
 
         while True:
-            # 无需任何外部硬编码抑制! 模型自己看着 obs 里的过去 3 帧动作历史 H_t 就能决定按不按!
+            # 无需任何外部硬编码抑制， 模型自己看着 obs 里的过去 3 帧动作历史 H_t 就能决定按不按!
             act = model.predict(obs)
 
             if model_infer_delay_frames == 0:
@@ -235,7 +235,7 @@ if __name__ == "__main__":
     delay_names = ["0ms (TP)", "25ms (RT)", "50ms (RT)", "75ms (RT)"]
     score_matrix = np.zeros((4, 4))
 
-    print("运行满血冠军版 v3.0 (+历史动作记忆 H_t + Adam 优化器 + 前瞻视野)...\n")
+    print("运行 v3.0 (+历史动作记忆 H_t + Adam 优化器 + 前瞻视野)...\n")
     header = f"{'训练数据延迟 \\ 测试推理延迟':<22} | " + " | ".join([f"{name:<15}" for name in delay_names])
     print(header)
     print("-" * len(header))
